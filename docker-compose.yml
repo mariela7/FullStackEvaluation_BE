@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: pg_marcasautos
+    environment:
+      POSTGRES_DB: MarcasAutosDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ./MarcasAutosApi
+    container_name: api_marcasautos
+    ports:
+      - "5000:8080"
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
